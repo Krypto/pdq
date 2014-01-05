@@ -14,6 +14,9 @@ fi
 ## start urxvt daemon
 [ -z "$(pidof urxvtd)" ] && [ -f /usr/bin/urxvtd ] && urxvtd -q -o -f
 
+#tint2 &
+#urxvtc &
+
 ## start clipboard manager
 if [ -f /usr/bin/autocutsel ]; then
     killall -q autocutsel
@@ -21,9 +24,11 @@ if [ -f /usr/bin/autocutsel ]; then
     autocutsel -selection PRIMARY -fork &
 fi
 
+eval $(gpg-agent --daemon) &
+
 ## export some variables
 [ -z "$EDITOR" ] && export EDITOR=nano      # if not set default to nano
-[ -z "$BROWSER" ] && export BROWSER=firefox # if not set default to firefox
+[ -z "$BROWSER" ] && export BROWSER=iceweasel # if not set default to firefox
 [ -f "$HOME/.gtkrc-2.0" ] && export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
 ## truecrypt mounted success file
@@ -40,14 +45,17 @@ case $1 in
     xfce) exec startxfce4;;
     lxde) exec startlxde;;
     wmii) exec wmii;;
+    wmfs) exec wmfs;;
     i3) exec i3;;
+    compiz) exec compiz ccp;;
+    fusion) exec fusion-icon;;
     spectrwm) exec spectrwm;;
     wmaker) exec wmaker;;
     icewm) exec icewm;;
     blackbox) exec blackbox;;
     fluxbox) exec fluxbox;;
     openbox) exec openbox-session;;
-    cinnamon) exec gnome-session-cinnamon;;
+    cinnamon) exec cinnamon-session;;
     mate) exec mate-session;;
     xterm) exec xterm;;
     *) exec enlightenment_start;;
